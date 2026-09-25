@@ -44,14 +44,14 @@
     --overlay: rgba(21, 19, 43, 0.94);
   }
 
-  html, body { height: 100%; }
+  html { height: 100%; }
   body {
     background: var(--ground);
     color: var(--ink);
     font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    min-height: 100%;
   }
 
   header {
@@ -101,17 +101,18 @@
   }
   button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  main { flex: 1; min-height: 0; position: relative; }
+  main { flex: 1; }
   iframe {
     width: 100%;
-    height: 100%;
+    min-height: 70vh;
     border: 0;
     display: block;
     background: #fff;
   }
 
   .thanks {
-    position: absolute;
+    position: fixed;
+    z-index: 10;
     inset: 0;
     background: var(--overlay);
     color: #fff;
@@ -142,6 +143,7 @@
       flex-direction: column;
       align-items: stretch;
       width: 300px;
+      align-self: flex-start;
       border-bottom: 0;
       border-right: 1px solid var(--line);
       padding: 28px 24px;
@@ -169,7 +171,7 @@
 </header>
 
 <main>
-  <iframe id="form" src="https://tally.so/embed/1A8DGb?hideTitle=1" title="Event Registration (Bhakti School)"></iframe>
+  <iframe id="form" data-tally-src="https://tally.so/embed/1A8DGb?hideTitle=1&dynamicHeight=1" loading="lazy" width="100%" frameborder="0" title="Event Registration (Bhakti School)"></iframe>
   <div class="thanks" id="thanks" hidden>
     <div class="mark">✓</div>
     <h2>Thank you — you're registered.</h2>
@@ -178,7 +180,7 @@
 </main>
 
 <script>
-  const FORM_SRC = "https://tally.so/embed/1A8DGb?hideTitle=1";
+  const FORM_SRC = "https://tally.so/embed/1A8DGb?hideTitle=1&dynamicHeight=1";
   const frame = document.getElementById("form");
   const thanks = document.getElementById("thanks");
   const count = document.getElementById("count");
@@ -188,6 +190,7 @@
     clearInterval(timer);
     thanks.hidden = true;
     frame.src = FORM_SRC + "&t=" + Date.now();
+    window.scrollTo(0, 0);
   }
 
   function submitted() {
@@ -208,5 +211,6 @@
   document.getElementById("reset").addEventListener("click", reset);
   thanks.addEventListener("click", reset);
 </script>
+<script src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
